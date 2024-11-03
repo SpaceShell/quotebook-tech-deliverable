@@ -4,9 +4,27 @@ import { Message } from "./message";
 
 function App() {
 	const [date, setDate] = useState("lastweek")
+	const [submitted, setSubmitted] = useState(false)
 
 	const changeDate = (e) => {
 		setDate(e.target.value)
+	}
+
+	const preventRefresh = (e) => {
+		e.preventDefault()
+		fetch("/api/quote", {
+			method: "POST",
+			headers: {
+				"Content-Type": 'application/x-www-form-urlencoded'
+			},
+			body: new URLSearchParams({
+				'name': e.target[0].value,
+				'message': e.target[1].value,
+				'age': date
+			}),
+		}).then((response) => {
+			setSubmitted(response)
+		})
 	}
 
 	return (
@@ -15,15 +33,15 @@ function App() {
 			<h1>Hack at UCI Tech Deliverable</h1>
 
 			<h2>Submit a quote</h2>
-			{/* TODO: implement custom form submission logic to not refresh the page */}
-			<form action="/api/quote" method="post">
+			<form onSubmit={(e) => preventRefresh(e)} action="/api/quote" method="post" id="form">
 				<label htmlFor="input-name">Name</label>
 				<input type="text" name="name" id="input-name" required />
 				<label htmlFor="input-message">Quote</label>
 				<input type="text" name="message" id="input-message" required />
-				<button type="submit">Submit</button>
+				<button type="submit" name="submit" value={"submit"}>Submit</button>
+
 				<label htmlFor="age">Date posted</label>
-				<select name="age" id="age" defaultValue={"lastweek"} onChange={(e) => changeDate(e)}>
+				<select id="age" defaultValue={"lastweek"} onChange={(e) => changeDate(e)} name="age">
 					<option value={"lastweek"}>Last week</option>
 					<option value={"lastmonth"}>Last month</option>
 					<option value={"lastyear"}>Last year</option>
@@ -32,7 +50,7 @@ function App() {
 			</form>
 
 			<h2>Previous Quotes</h2>
-			<Message postedDate={date}/>
+			<Message postedDate={date} submitted={submitted} setSubmitted={setSubmitted}/>
 		</div>
 	);
 }

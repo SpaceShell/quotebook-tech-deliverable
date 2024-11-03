@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 
-export function Message(postedDate) {
+export function Message({postedDate, setSubmitted, submitted}) {
     const [data, setData] = useState(null)
 
 	useEffect(() => {
-		fetch(`/api/data?age=${postedDate.postedDate}`).then((response) => {
+		fetch(`/api/data?age=${postedDate}`).then((response) => {
 			return response.json()
 		})
 		.then(data => setData(data))
-	}, [postedDate])
+	}, [postedDate, submitted])
 
     return(
         <div className="messages">

@@ -34,7 +34,7 @@ app = FastAPI(lifespan=lifespan)
 
 
 @app.post("/quote")
-def post_message(name: str = Form(), message: str = Form()) -> RedirectResponse:
+def post_message(name: str = Form(), message: str = Form(), age: str = Form()) -> RedirectResponse:
     """
     Process a user submitting a new quote.
     You should not modify this function except for the return value.
@@ -43,11 +43,9 @@ def post_message(name: str = Form(), message: str = Form()) -> RedirectResponse:
     quote = Quote(name=name, message=message, time=now.isoformat(timespec="seconds"))
     database["quotes"].append(quote)
 
-    # You may modify the return value as needed to support other functionality
-    return RedirectResponse("/", status.HTTP_303_SEE_OTHER)
+    return quote
 
 
-# TODO: add another API route with a query parameter to retrieve quotes based on max age
 @app.get("/data")
 async def retrieve_messages(age: str = "lastweek"):
     databaseCopy = {"quotes": []}
