@@ -1,18 +1,13 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Message } from "./message";
 
 function App() {
-	const [data, setData] = useState(null)
+	const [date, setDate] = useState("lastweek")
 
-	useEffect(() => {
-		fetch("/api/data").then((response) => {
-			if (response.status >= 400) {
-				throw error
-			}
-			return response.json()
-		})
-		.then(data => setData(data))
-	}, [setData, data])
+	const changeDate = (e) => {
+		setDate(e.target.value)
+	}
 
 	return (
 		<div className="App">
@@ -27,24 +22,17 @@ function App() {
 				<label htmlFor="input-message">Quote</label>
 				<input type="text" name="message" id="input-message" required />
 				<button type="submit">Submit</button>
+				<label htmlFor="age">Date posted</label>
+				<select name="age" id="age" defaultValue={"lastweek"} onChange={(e) => changeDate(e)}>
+					<option value={"lastweek"}>Last week</option>
+					<option value={"lastmonth"}>Last month</option>
+					<option value={"lastyear"}>Last year</option>
+					<option value={"all"}>All quotes</option>
+				</select>
 			</form>
 
 			<h2>Previous Quotes</h2>
-			{/* TODO: Display the actual quotes from the database */}
-			
-			<div className="messages">
-				{data ? (
-					data.quotes.map((data) => (
-						<div>
-							<p>{data.name}</p>
-							<p>{data.message}</p>
-							<p>{data.time}</p>
-						</div>
-					))
-				) : (
-					<p></p>
-				)}
-			</div>
+			<Message postedDate={date}/>
 		</div>
 	);
 }
