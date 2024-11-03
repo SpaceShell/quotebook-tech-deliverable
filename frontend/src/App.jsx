@@ -1,6 +1,19 @@
 import "./App.css";
+import { useState, useEffect } from "react";
 
 function App() {
+	const [data, setData] = useState(null)
+
+	useEffect(() => {
+		fetch("/api/data").then((response) => {
+			if (response.status >= 400) {
+				throw error
+			}
+			return response.json()
+		})
+		.then(data => setData(data))
+	}, [setData, data])
+
 	return (
 		<div className="App">
 			{/* TODO: include an icon for the quote book */}
@@ -18,10 +31,19 @@ function App() {
 
 			<h2>Previous Quotes</h2>
 			{/* TODO: Display the actual quotes from the database */}
+			
 			<div className="messages">
-				<p>Peter Anteater</p>
-				<p>Zot Zot Zot!</p>
-				<p>Every day</p>
+				{data ? (
+					data.quotes.map((data) => (
+						<div>
+							<p>{data.name}</p>
+							<p>{data.message}</p>
+							<p>{data.time}</p>
+						</div>
+					))
+				) : (
+					<p></p>
+				)}
 			</div>
 		</div>
 	);
