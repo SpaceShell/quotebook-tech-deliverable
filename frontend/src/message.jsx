@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function Message({postedDate, setSubmitted, submitted}) {
+export function Message({postedDate, submitted}) {
     const [data, setData] = useState(null)
 
 	useEffect(() => {

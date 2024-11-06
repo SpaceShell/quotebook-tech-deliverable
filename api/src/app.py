@@ -34,7 +34,7 @@ app = FastAPI(lifespan=lifespan)
 
 
 @app.post("/quote")
-def post_message(name: str = Form(), message: str = Form(), age: str = Form()) -> RedirectResponse:
+def post_message(name: str = Form(), message: str = Form()) -> RedirectResponse:
     """
     Process a user submitting a new quote.
     You should not modify this function except for the return value.
