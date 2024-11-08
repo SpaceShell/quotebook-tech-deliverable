@@ -27,9 +27,9 @@ function App() {
 				<FormLayout setSubmitted={setSubmitted}/>
 				<p className="mt-40 relative top-12 lg:top-0">Hack at UCI Tech Deliverable</p>
 			</div>
-			<div className="md:h-screen md:overflow-y-auto">
+			<div className="md:h-screen lg:overflow-y-auto">
 				<div className="w-full border-b-2 border-solid">
-					<Form className="pr-10 float-right pt-[5%] md:py-2">
+					<Form className="pr-10 float-right py-3">
 						<Form.Label htmlFor="age">Date posted</Form.Label>
 						<Form.Select aria-label="Date posted" id="age" defaultValue={"lastweek"} onChange={(e) => changeDate(e)} name="age" className="!rounded-2xl">
 							<option value={"lastweek"}>Last week</option>
@@ -38,7 +38,7 @@ function App() {
 							<option value={"all"}>All quotes</option>
 						</Form.Select>
 					</Form>
-					<h2 className="pl-10 py-4">Previous Quotes</h2>
+					<h2 className="pl-10 py-8">Previous Quotes</h2>
 				</div>
 				<Message postedDate={date} submitted={submitted}/>
 			</div>
