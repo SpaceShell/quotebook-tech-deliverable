@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from typing import AsyncIterator
+import copy
 
 from fastapi import FastAPI, Form, status
 from fastapi.responses import RedirectResponse
@@ -53,7 +54,7 @@ async def retrieve_messages(age: str = "lastweek"):
     if age == "lastweek":
         comparisonDate = datetime.now() - timedelta(days=7)
     elif age == "lastmonth":
-        comparisonDate = datetime.now() - timedelta(days=30)
+        comparisonDate = datetime.now() - timedelta(days=31)
     elif age == "lastyear":
         comparisonDate = datetime.now() - timedelta(days=365)
     else:
@@ -62,6 +63,14 @@ async def retrieve_messages(age: str = "lastweek"):
     for quote in database['quotes']:
         quoteDate = datetime.fromisoformat(quote['time'])
         if quoteDate > comparisonDate:
-            databaseCopy['quotes'].append(quote)
+            quoteCopy = copy.deepcopy(quote)
+            quoteCopy['time'] = copy.deepcopy(quoteDate)
+            quoteCopy['time'] = datetime.strptime(str(quoteCopy['time']), "%Y-%m-%d %H:%M:%S")
+            quoteCopy['time'] = quoteCopy['time'].strftime("%h %d, %Y;%H:%M")
+            quoteCopy['time'] = quoteCopy['time'].split(";")
+            if quoteCopy['time'][0][4] == "0":
+                quoteCopy['time'][0] = quoteCopy['time'][0].split("0", 1)
+                quoteCopy['time'][0] = "".join([quoteCopy['time'][0][0], quoteCopy['time'][0][1]])
+            databaseCopy['quotes'].append(quoteCopy)
 
     return databaseCopy

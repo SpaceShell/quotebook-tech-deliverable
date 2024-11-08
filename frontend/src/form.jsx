@@ -30,7 +30,7 @@ export function FormLayout({ setSubmitted }) {
         <Form.Control as="textarea" rows={3} type="text" name="message" id="input-message" placeholder="Type your quote here..." required className="!rounded-2xl"/>
       </Form.Group>
       <Form.Group className="mb-3">
-        <Button variant="primary" type="submit" name="submit" value={"submit"} className="!px-10">Submit</Button>
+        <Button variant="primary" type="submit" name="submit" value={"submit"} className="!px-10 !bg-cyan-500 !border-teal-900 hover:!bg-cyan-600">Submit</Button>
       </Form.Group>
     </Form>
     )

@@ -25,7 +25,7 @@ function App() {
 
 				<h2 className="mb-4">Submit a quote</h2>
 				<FormLayout setSubmitted={setSubmitted}/>
-				<p className="mt-40 relative top-12 lg:top-0">Hack at UCI Tech Deliverable</p>
+				<p className="mt-40 lg:mt-0 relative top-12 lg:top-24 lg:top-0">Hack at UCI Tech Deliverable</p>
 			</div>
 			<div className="md:h-screen lg:overflow-y-auto">
 				<div className="w-full border-b-2 border-solid">
